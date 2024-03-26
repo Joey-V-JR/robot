@@ -90,16 +90,16 @@ void setup()
 void loop() 
 { 
   myservo1.write(90);
-  delay(500);
-   myservo1.write(0);
-  delay (500);
-  myservo1.write(180);
-  delay(500);      
+  delay(150);
+   myservo1.write(91);
+  delay (150);
+  myservo1.write(89);
+  delay(150);      
   motor1.run(-50);
   motor2.run(-50);
   motor3.run(50);
   motor4.run(50);
-  delay(500); 
+  delay(400); 
   motor1.stop();
   motor2.stop();
   motor3.stop();
@@ -219,18 +219,19 @@ void loop()
       delay(250);
       motor1.stop();
       motor2.stop(); 
-      delay (2000);
+      delay (250);
   }
 
   void turnR()
   {
+    //turn issues
        //backupFast();
-      motor3.run(-250);
-      motor4.run(-250);
-      delay(250);
+      motor3.run(-150);
+      motor4.run(-150);
+      delay(150);
       motor1.stop();
       motor2.stop(); 
-      delay (2000);
+      delay (150);
   }
 
   void turnCyl ()
@@ -294,3 +295,5 @@ void loop()
           motor2.stop();
 
   }
+
+  
