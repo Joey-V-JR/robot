@@ -35,6 +35,9 @@ int left = 0;
 int right = 0;
 //int sensorState = lineFinder.readSensor();
 
+bool startTurn = true;
+int cylCount = 0;
+
 void isr_process_encoder1(void)                               // This sets up the interrupt process for encoder 1
 {
   if(digitalRead(Encoder_1.getPortB()) == 0)
@@ -64,7 +67,6 @@ void setup()
 { 
   myservo1.attach(servo1pin);                                               // attaches the servo on servopin1
   
-  
   attachInterrupt(Encoder_1.getIntNum(), isr_process_encoder1, RISING);     //attaches interupt to encoder 1 to count the pulses 
   attachInterrupt(Encoder_2.getIntNum(), isr_process_encoder2, RISING);     //attaches interupt to encoder 2 to count the pulses
 
@@ -89,21 +91,13 @@ void setup()
 
 void loop() 
 { 
-  myservo1.write(90);
-  delay(150);
-   myservo1.write(91);
-  delay (150);
-  myservo1.write(89);
-  delay(150);      
-  motor1.run(-50);
-  motor2.run(-50);
-  motor3.run(50);
-  motor4.run(50);
-  delay(400); 
-  motor1.stop();
-  motor2.stop();
-  motor3.stop();
-  motor4.stop();
+  headN();
+  delay (300);
+  moveF();
+  delay (300);
+
+        
+  
   
   /*
   delay(1000);
@@ -197,16 +191,40 @@ void loop()
           motor2.stop();
           motor3.stop();
           motor4.stop();
-          delay(2000);
-          motor1.run(250);
-          motor2.run(250);
-          motor3.run(-250);
-          motor4.run(-250);
-          delay(200); 
-          motor1.stop();
-          motor2.stop();
-          motor3.stop();
-          motor4.stop();
+          delay(500);
+          if (startTurn == true)
+          {
+            motor1.run(250);
+            motor2.run(250);
+            motor3.run(-250);
+            motor4.run(-250);
+            delay(100); 
+            motor1.stop();
+            motor2.stop();
+            motor3.stop();
+            motor4.stop();
+            delay (100);
+          }
+
+          else
+          {
+            motor1.run(250);
+            motor2.run(250);
+            motor3.run(-250);
+            motor4.run(-250);
+            delay(150); 
+            motor1.stop();
+            motor2.stop();
+            motor3.stop();
+            motor4.stop();
+            delay (100);
+          }
+          if (startTurn == true)
+          {
+            startTurn = false;
+            turnR();
+            
+          }
           
     
   }
@@ -216,9 +234,13 @@ void loop()
       //backupFast();
       motor1.run(250);
       motor2.run(250);
+      motor3.run(250);
+      motor4.run(250);
       delay(250);
       motor1.stop();
       motor2.stop(); 
+      motor3.stop();
+      motor4.stop(); 
       delay (250);
   }
 
@@ -226,12 +248,16 @@ void loop()
   {
     //turn issues
        //backupFast();
-      motor3.run(-150);
-      motor4.run(-150);
-      delay(150);
+      motor1.run(-250);
+      motor2.run(-250);
+      motor3.run(-250);
+      motor4.run(-250);
+      delay(250);
       motor1.stop();
-      motor2.stop(); 
-      delay (150);
+      motor2.stop();
+      motor3.stop();
+      motor4.stop(); 
+      delay (250);
   }
 
   void turnCyl ()
@@ -296,4 +322,32 @@ void loop()
 
   }
 
+  void unpark ()
+  {
+    
   
+  }
+
+  void headN ()
+  {
+      myservo1.write(90);
+      delay(40);
+      myservo1.write(91);
+      delay (40);
+      myservo1.write(89);
+      delay(40);
+    
+  }
+  void moveF ()
+  {
+      motor1.run(-70);
+      motor2.run(-70);
+      motor3.run(70);
+      motor4.run(70);
+      delay(400); 
+      motor1.stop();
+      motor2.stop();
+      motor3.stop();
+      motor4.stop();
+      //delay(400);
+  }
